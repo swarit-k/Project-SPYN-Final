@@ -1,0 +1,101 @@
+toggle = true;
+brick.SetColorMode(3, 2);
+
+while toggle
+  brick.MoveMotor('D', 34);
+  brick.MoveMotor('B', 30);
+
+while brick.ColorCode(3) == 5
+    disp(brick.ColorCode(3)); %Red
+    brick.StopAllMotors();
+    disp(brick.ColorCode(3));
+    pause(1);
+    while brick.ColorCode(3) == 5
+        brick.MoveMotor('D', 34);
+        brick.MoveMotor('B', 30);
+    end
+end
+
+while brick.ColorCode(3) == 3
+if brick.ColorCode(3) == 3 %Green
+    brick.StopAllMotors();
+    disp(brick.ColorCode(3));
+    brick.beep();
+    pause(1);
+    brick.beep();
+    pause(1);
+    brick.beep();
+    pause(5);
+end
+end
+
+
+while brick.ColorCode(3) == 2
+    if brick.ColorCode(3) == 2 %Blue
+        brick.StopAllMotors();
+        disp(brick.ColorCode(3));
+        brick.beep();
+        pause(1);
+        brick.beep();
+        pause(5);
+    end
+end
+
+while brick.ColorCode(3) == 4
+  if brick.ColorCode(3) == 4 %Yellow
+    brick.StopAllMotors();
+    disp(brick.ColorCode(3));
+    brick.beep();
+    pause(1);
+    brick.beep();
+    pause(1);
+    brick.beep();
+    pause(1);
+    brick.beep();
+    pause(3);
+  end
+end
+  
+    disp(brick.UltrasonicDist(1));
+    if brick.UltrasonicDist(1) > 45.00 %turn left if no nearby wall
+      disp("Turning left");
+      pause(2);
+      brick.StopAllMotors;
+      pause(1);
+      disp(brick.UltrasonicDist(1));
+      brick.MoveMotorAngleRel('D', 30, 198, 'Brake');
+      brick.MoveMotorAngleRel('B', -30, 198, 'Brake');
+       pause(4);
+       disp("Moving forward");
+       brick.MoveMotor('D', 34);
+       brick.MoveMotor('B', 30);
+       pause(2.5);
+    end
+  
+  if  brick.TouchPressed(2) == 1 %check if touch sensor is being pressed
+    disp("Touch sensor pressed");
+    brick.StopAllMotors('Brake');
+    brick.MoveMotor('D', -12);
+    brick.MoveMotor('B', -10);
+    pause(4);
+    brick.StopAllMotors('Brake');
+    
+    if brick.UltrasonicDist(1) > 45.00 %turn left if no nearby wall
+      disp("Turning left");
+      disp(brick.UltrasonicDist(1));
+      brick.MoveMotorAngleRel('D', -20, 175, 'Brake');
+      brick.MoveMotorAngleRel('B', 20, 175, 'Brake');
+      pause(7);
+      brick.StopAllMotors();
+
+    else
+      disp("Turning right");
+      disp(brick.UltrasonicDist(1));
+      brick.MoveMotorAngleRel('D', 30, 194, 'Brake');
+      brick.MoveMotorAngleRel('B', -30, 194, 'Brake');
+      pause(3);
+      brick.StopAllMotors();
+    end
+    disp("Done turning");
+  end
+end
